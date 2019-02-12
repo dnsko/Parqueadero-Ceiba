@@ -1,11 +1,9 @@
 package com.example.demo.helpers;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import com.example.demo.enums.TarifaPrecios;
 import com.example.demo.vo.IngresoVehiculo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,31 +84,33 @@ public class VehiculoHelper implements InterfaceVehiculo {
    private void calculateValue(Vehiculo vehiculo) {
 
 	   if(TipoVehiculo.CARRO.equals(vehiculo.getTipoVehiculo())){
-           calculoPrecioTtotal(vehiculo, TarifaPrecios.CARRO_DIA,TarifaPrecios.CARRO_HORA);
+           calculoPrecioTtotal(vehiculo, 8000L,1000L);
        }else{
-           calculoPrecioTtotal(vehiculo,TarifaPrecios.MOTO_DIA,TarifaPrecios.MOTO_HORA);
+           calculoPrecioTtotal(vehiculo,4000L,500L);
        }
 
    }
 
     /**
      * Metodo parta calcular el precio total
-     * @param vehiculo vehiculo
+     * @param vehiculo vehiculo a calcular
+     * @param dia precio por dia
+     * @param hora precio por hora
      */
-   private void calculoPrecioTtotal(Vehiculo vehiculo,TarifaPrecios dia,TarifaPrecios hora){
+   private void calculoPrecioTtotal(Vehiculo vehiculo,Long dia,Long hora){
        try{
            Date initialDate=vehiculo.getMomentoIngreso();
            Date finalDate=vehiculo.getMomentoSalida();
            Long dateDif=initialDate.getTime()-finalDate.getTime();
            Long dateDifInHours=dateDif/(60*60*1000);
            Long totalDays=dateDifInHours/24;
-           Long daysValue=totalDays*Long.parseLong(dia.getTarifaPrecios());
+           Long daysValue=totalDays*dia;
            Long totalHours=dateDifInHours%24;
            Long hoursValue;
            if(9<=totalHours){
-               hoursValue=Long.parseLong(dia.getTarifaPrecios());
+               hoursValue=dia;
            }else {
-               hoursValue=totalHours*Long.parseLong(hora.getTarifaPrecios());
+               hoursValue=totalHours*hora;
            }
            vehiculo.setValorParqueadero(daysValue + hoursValue);
        }catch (Exception e){
