@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.example.demo.enums.TarifaPrecios;
 import com.example.demo.vo.IngresoVehiculo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,9 +38,12 @@ public class VehiculoHelper implements InterfaceVehiculo {
             }catch(Exception e) {
             	return "No existe el veihiculo en el parqueadero";
             }
-            return calculateValue(vehiculo);
+            vehiculo.setMomentoSalida(new Date());
+            calculateValue(vehiculo);
+            vehiculo.setEstadoVehiculo(EstadoVehiculo.AFUERA);
+            return "Vehiculo de placas "+vehiculo.getPlacas()+" Retirado exitosamente en "+vehiculo.getMomentoSalida()+" con un valor a pagar de "+vehiculo.getValorParqueadero();
         }catch (Exception e){
-            return null;
+            return "Error: "+e;
         }
     }
 
@@ -68,45 +72,50 @@ public class VehiculoHelper implements InterfaceVehiculo {
                     vehiculo.setEstadoVehiculo(EstadoVehiculo.ADENTRO);
                     vehiculo.setTipoVehiculo(ingresoVehiculo.getTipoVehiculo());
                     interfacePersistenceVehiculo.save(vehiculo);
-                    return "Vehiculo de placas "+vehiculo.getPlacas() + "ingresa con fecha" + vehiculo.getMomentoIngreso();
+                    return "Vehiculo de placas "+vehiculo.getPlacas() + " ingresa con fecha " + vehiculo.getMomentoIngreso();
                 }
             }
         }catch (Exception e){
-            return "Error al ingresar el vehiculo";
+            return "Error al ingresar el vehiculo " + e;
         }
     }
     /**
      * Metodo para calcular el valor ya sea carro o moto
      * @param vehiculo entidad vehiculo a calcular
-     * @return valor n string para retornar
      */
-   private String calculateValue(Vehiculo vehiculo) {
+   private void calculateValue(Vehiculo vehiculo) {
 
 	   if(TipoVehiculo.CARRO.equals(vehiculo.getTipoVehiculo())){
-           calculoDiasYHoras(vehiculo);
+           calculoPrecioTtotal(vehiculo, TarifaPrecios.CARRO_DIA,TarifaPrecios.CARRO_HORA);
        }else{
-           calculoDiasYHoras(vehiculo);
+           calculoPrecioTtotal(vehiculo,TarifaPrecios.MOTO_DIA,TarifaPrecios.MOTO_HORA);
        }
-	   return"";
+
    }
 
     /**
-     * Metodo parta calcular la cantidad de dias y horas para facturar
+     * Metodo parta calcular el precio total
      * @param vehiculo vehiculo
-     * @return lista de numeros en el cual se encuentran en la posicion 1 los dias y en la posicion 2 las horas
      */
-   private List<Long> calculoDiasYHoras(Vehiculo vehiculo){
+   private void calculoPrecioTtotal(Vehiculo vehiculo,TarifaPrecios dia,TarifaPrecios hora){
        try{
-           List<Long> diasYHoras=new ArrayList<>();
            Date initialDate=vehiculo.getMomentoIngreso();
            Date finalDate=vehiculo.getMomentoSalida();
            Long dateDif=initialDate.getTime()-finalDate.getTime();
-           Long dateDifInDays=dateDif/(24*60*60*1000);
-           System.out.println(dateDifInDays);
-           return diasYHoras;
+           Long dateDifInHours=dateDif/(60*60*1000);
+           Long totalDays=dateDifInHours/24;
+           Long daysValue=totalDays*Long.parseLong(dia.getTarifaPrecios());
+           Long totalHours=dateDifInHours%24;
+           Long hoursValue;
+           if(9<=totalHours){
+               hoursValue=Long.parseLong(dia.getTarifaPrecios());
+           }else {
+               hoursValue=totalHours*Long.parseLong(hora.getTarifaPrecios());
+           }
+           vehiculo.setValorParqueadero(daysValue + hoursValue);
        }catch (Exception e){
            System.out.println(e);
-           return null;
+           vehiculo.setValorParqueadero(null);
        }
    }
 }

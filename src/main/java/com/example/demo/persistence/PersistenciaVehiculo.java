@@ -13,6 +13,6 @@ import com.example.demo.enums.EstadoVehiculo;
 @Repository
 public interface PersistenciaVehiculo extends CrudRepository<Vehiculo,Long> {
 
-	@Query("SELECT vehiculo FROM Vehiculo vehiculo WHERE vehiculo.estadoVehiculo = :estadoVehiculo and vehiculo.placas =: placa")
-	List<Vehiculo> obtenerVehiculoPorPlacas(@Param("estadoVehiculo") EstadoVehiculo estadoVehiculo,@Param("estadoVehiculo") String placa);
+	@Query("SELECT vehiculo FROM Vehiculo vehiculo WHERE vehiculo.estadoVehiculo = :estadoVehiculo and vehiculo.placas = :placa")
+	List<Vehiculo> obtenerVehiculoPorPlacas(@Param("estadoVehiculo") EstadoVehiculo estadoVehiculo,@Param("placa") String placa);
 }

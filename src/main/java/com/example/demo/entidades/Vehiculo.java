@@ -30,7 +30,7 @@ public class Vehiculo {
 
     private String placas;
 
-    private Double valorParqueadero;
+    private Long valorParqueadero;
 
     private String cilindraje;
 
@@ -84,11 +84,11 @@ public class Vehiculo {
         this.placas = placas;
     }
 
-    public Double getValorParqueadero() {
+    public Long getValorParqueadero() {
         return valorParqueadero;
     }
 
-    public void setValorParqueadero(Double valorParqueadero) {
+    public void setValorParqueadero(Long valorParqueadero) {
         this.valorParqueadero = valorParqueadero;
     }
 
