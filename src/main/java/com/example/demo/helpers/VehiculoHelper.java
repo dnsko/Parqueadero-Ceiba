@@ -39,6 +39,7 @@ public class VehiculoHelper implements InterfaceVehiculo {
             vehiculo.setMomentoSalida(new Date());
             calculateValue(vehiculo);
             vehiculo.setEstadoVehiculo(EstadoVehiculo.AFUERA);
+            interfacePersistenceVehiculo.save(vehiculo);
             return "Vehiculo de placas "+vehiculo.getPlacas()+" Retirado exitosamente en "+vehiculo.getMomentoSalida()+" con un valor a pagar de "+vehiculo.getValorParqueadero();
         }catch (Exception e){
             return "Error: "+e;
