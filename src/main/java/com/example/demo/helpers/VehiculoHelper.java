@@ -4,7 +4,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+
 import com.example.demo.vo.IngresoVehiculo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +20,10 @@ import com.example.demo.vo.PlacaVehiculo;
 
 @Service
 public class VehiculoHelper implements InterfaceVehiculo {
-	
+
+
+    private static final Logger logger = LoggerFactory.getLogger(VehiculoHelper.class);
+
     @Autowired
     private PersistenciaVehiculo interfacePersistenceVehiculo;
 
@@ -29,20 +35,33 @@ public class VehiculoHelper implements InterfaceVehiculo {
     @Override
     public String retiroVehiculo(PlacaVehiculo placaVO) {
         try{
-            Vehiculo vehiculo;
-            try {
-            	List<Vehiculo> vehiculoList = interfacePersistenceVehiculo.obtenerVehiculoPorPlacas(EstadoVehiculo.ADENTRO,placaVO.getPlacas());
-            	vehiculo=vehiculoList.get(0);
-            }catch(Exception e) {
-            	return "No existe el veihiculo en el parqueadero";
+            Vehiculo vehiculo=verVehiculo(placaVO);
+            if(null!=vehiculo){
+                vehiculo.setMomentoSalida(new Date());
+                calculateValue(vehiculo);
+                vehiculo.setEstadoVehiculo(EstadoVehiculo.AFUERA);
+                interfacePersistenceVehiculo.save(vehiculo);
+                return "Vehiculo de placas "+vehiculo.getPlacas()+" Retirado exitosamente en "+vehiculo.getMomentoSalida()+" con un valor a pagar de "+vehiculo.getValorParqueadero();
+            }else {
+                return "Vehiculo no existe en el parqueadero";
             }
-            vehiculo.setMomentoSalida(new Date());
-            calculateValue(vehiculo);
-            vehiculo.setEstadoVehiculo(EstadoVehiculo.AFUERA);
-            interfacePersistenceVehiculo.save(vehiculo);
-            return "Vehiculo de placas "+vehiculo.getPlacas()+" Retirado exitosamente en "+vehiculo.getMomentoSalida()+" con un valor a pagar de "+vehiculo.getValorParqueadero();
         }catch (Exception e){
             return "Error: "+e;
+        }
+    }
+
+    /**
+     * Metodo para obtener un Vehiculo
+     * @param placaVehiculo placavehiculo
+     * @return vehuculo encontrado
+     */
+    private Vehiculo verVehiculo(PlacaVehiculo placaVehiculo){
+        try {
+            List<Vehiculo> vehiculoList = interfacePersistenceVehiculo.obtenerVehiculoPorPlacas(EstadoVehiculo.ADENTRO,placaVehiculo.getPlacas());
+            return vehiculoList.get(0);
+        }catch(Exception e) {
+            logger.error("Vehiculo no existe en el parqueadero "+e);
+            return null;
         }
     }
 
@@ -115,7 +134,7 @@ public class VehiculoHelper implements InterfaceVehiculo {
            }
            vehiculo.setValorParqueadero(daysValue + hoursValue);
        }catch (Exception e){
-           System.out.println(e);
+           logger.error("Error al calcular el precio "+e);
            vehiculo.setValorParqueadero(null);
        }
    }

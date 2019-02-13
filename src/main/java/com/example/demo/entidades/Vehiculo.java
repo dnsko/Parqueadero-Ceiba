@@ -11,7 +11,6 @@ import com.example.demo.enums.TipoVehiculo;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Logger;
 
 @Entity
 @Table(name="Vehiculo")
@@ -108,40 +107,4 @@ public class Vehiculo {
         this.estadoVehiculo = estadoVehiculo;
     }
 
-    /**
-     * Metodo para calcular el valor del vehiculo
-     * @return
-     */
-    public String calcularValorParqueadero(){
-        try{
-            Calendar calendar=Calendar.getInstance();
-            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-            /*Validacion placas*/
-            if(this.placas.toLowerCase().startsWith("a") && dayOfWeek==1 || dayOfWeek==7){
-                return "Acceso no autorizado al vehiculo por placa";
-            }else{
-                if(this.tipoVehiculo.equals(TipoVehiculo.CARRO)){
-                    return "try";
-                }else{
-                    return "try";
-                }
-            }
-
-        }catch (Exception e){
-            this.valorParqueadero=null;
-            return null;
-        }
-    }
-
-    /**
-     *
-     * @param precioHora precio hora
-     * @param precioDia precio dia
-     * @return
-     */
-    public String calcularValor(Double precioHora,Double precioDia,Double exedente){
-        Date entrada=this.momentoIngreso;
-        Date salida=this.momentoSalida;
-        return "try";
-    }
 }

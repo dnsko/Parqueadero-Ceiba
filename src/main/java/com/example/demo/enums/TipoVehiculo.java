@@ -5,18 +5,18 @@ public enum TipoVehiculo {
 	CARRO("Carro"),
 	MOTO("Moto");
 
-    private String tipoVehiculo;
+    private String tipoDeVehiculo;
 
-    
-    private TipoVehiculo(String tipoVehiculo) {
-    	
-    }
-    
-    public void TipoVehiculoEnum(String tipoVehiculo){
-        this.tipoVehiculo = tipoVehiculo;
+
+    private TipoVehiculo(String tipoDeVehiculo) {
+
     }
 
-    public String getTipoVehiculo() {
-        return tipoVehiculo;
+    public void tipoVehiculoEnum(String tipoVehiculo){
+        this.tipoDeVehiculo = tipoVehiculo;
+    }
+
+    public String getTipoDeVehiculo() {
+        return tipoDeVehiculo;
     }
 }

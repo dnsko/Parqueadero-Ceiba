@@ -8,7 +8,6 @@ import com.example.demo.persistence.PersistenciaVehiculo;
 import com.example.demo.vo.IngresoVehiculo;
 import com.example.demo.vo.PlacaVehiculo;
 import static org.junit.Assert.*;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -5,18 +5,18 @@ public enum EstadoVehiculo {
 	ADENTRO("adentro"),
 	AFUERA("afuera");
 
-    private String estadoVehiculo;
+    private String estadoDeVehiculo;
 
 
-    private EstadoVehiculo(String tipoVehiculo) {
-    	
-    }
-    
-    public void EstadoVehiculoEnum(String tipoVehiculo){
-        this.estadoVehiculo = estadoVehiculo;
+    private EstadoVehiculo(String estadoDeVehiculo) {
+
     }
 
-    public String getEstadoVehiculo() {
-        return estadoVehiculo;
+    public void estadoVehiculoEnum(String estadoVehiculo){
+        this.estadoDeVehiculo = estadoVehiculo;
+    }
+
+    public String getEstadoDeVehiculo() {
+        return estadoDeVehiculo;
     }
 }
