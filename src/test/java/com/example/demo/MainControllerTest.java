@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,8 +23,6 @@ import java.util.List;
 @SpringBootTest
 public class MainControllerTest {
 
-	Vehiculo carro;
-	Vehiculo moto;
 
 	@Autowired
 	private MainController mainController;
@@ -35,32 +32,33 @@ public class MainControllerTest {
 	@Before
 	public void generateData() {
 		try {
-			this.carro = new Vehiculo();
-			this.carro.setPlacas("car123");
+			persistenciaVehiculo.deleteAll();
+			Vehiculo carro = new Vehiculo();
+			carro.setPlacas("car123");
 			String ingreso = "02/02/2019 23:37:50";
 			Date ingresoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(ingreso);
 			String salida = "04/02/2019 07:37:50";
 			Date salidaFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(salida);
-			this.carro.setMomentoIngreso(ingresoFecha);
-			this.carro.setMomentoSalida(salidaFecha);
-			this.carro.setEstadoVehiculo(EstadoVehiculo.ADENTRO);
-			this.carro.setTipoVehiculo(TipoVehiculo.CARRO);
-			this.carro.setAdentroParqueadero(true);
-			persistenciaVehiculo.save(this.carro);
+			carro.setMomentoIngreso(ingresoFecha);
+			carro.setMomentoSalida(salidaFecha);
+			carro.setEstadoVehiculo(EstadoVehiculo.ADENTRO);
+			carro.setTipoVehiculo(TipoVehiculo.CARRO);
+			carro.setAdentroParqueadero(true);
+			persistenciaVehiculo.save(carro);
 
-			this.moto = new Vehiculo();
-			this.moto.setPlacas("mot123");
+			Vehiculo moto = new Vehiculo();
+			moto.setPlacas("mot123");
 			String ingreso2 = "01/02/2019 09:37:50";
 			Date ingresoFecha2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(ingreso2);
 			String salida2 = "04/03/2019 07:37:50";
 			Date salidaFecha2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(salida2);
-			this.moto.setMomentoIngreso(ingresoFecha2);
-			this.moto.setMomentoSalida(salidaFecha2);
-			this.moto.setEstadoVehiculo(EstadoVehiculo.ADENTRO);
-			this.moto.setTipoVehiculo(TipoVehiculo.MOTO);
-			this.moto.setCilindraje("700");
-			this.moto.setAdentroParqueadero(true);
-			persistenciaVehiculo.save(this.moto);
+			moto.setMomentoIngreso(ingresoFecha2);
+			moto.setMomentoSalida(salidaFecha2);
+			moto.setEstadoVehiculo(EstadoVehiculo.ADENTRO);
+			moto.setTipoVehiculo(TipoVehiculo.MOTO);
+			moto.setCilindraje("700");
+			moto.setAdentroParqueadero(true);
+			persistenciaVehiculo.save(moto);
 
 		}catch (Exception e){
 			System.out.println("Error al crear la data previa para pruebas" + e);
