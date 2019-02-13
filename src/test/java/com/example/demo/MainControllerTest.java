@@ -47,6 +47,21 @@ public class MainControllerTest {
 			this.carro.setTipoVehiculo(TipoVehiculo.CARRO);
 			this.carro.setAdentroParqueadero(true);
 			persistenciaVehiculo.save(this.carro);
+
+			this.moto = new Vehiculo();
+			this.moto.setPlacas("mot123");
+			String ingreso2 = "01/02/2019 09:37:50";
+			Date ingresoFecha2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(ingreso2);
+			String salida2 = "04/03/2019 07:37:50";
+			Date salidaFecha2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(salida2);
+			this.moto.setMomentoIngreso(ingresoFecha2);
+			this.moto.setMomentoSalida(salidaFecha2);
+			this.moto.setEstadoVehiculo(EstadoVehiculo.ADENTRO);
+			this.moto.setTipoVehiculo(TipoVehiculo.MOTO);
+			this.moto.setCilindraje("700");
+			this.moto.setAdentroParqueadero(true);
+			persistenciaVehiculo.save(this.moto);
+
 		}catch (Exception e){
 			System.out.println("Error al crear la data previa para pruebas" + e);
 		}
@@ -68,11 +83,37 @@ public class MainControllerTest {
 		assertEquals("Un vehiculo de las mismas placas ya se encuentra adentro del parqueadero",response);
 	}
 	@Test
+	public void ingresoMotoSuccess() {
+		IngresoVehiculo ingresoVehiculo = new IngresoVehiculo();
+		ingresoVehiculo.setPlacas("pro123");
+		ingresoVehiculo.setTipoVehiculo(TipoVehiculo.MOTO);
+		ingresoVehiculo.setCilindraje("250");
+		String response=mainController.ingresoVehiculo(ingresoVehiculo);
+		assertEquals("Vehiculo de placas "+ingresoVehiculo.getPlacas() + " ingresa con fecha " + new Date(),response);
+	}
+	@Test
+	public void ingresoMotoRepeat() {
+		IngresoVehiculo ingresoVehiculo = new IngresoVehiculo();
+		ingresoVehiculo.setPlacas("mot123");
+		ingresoVehiculo.setTipoVehiculo(TipoVehiculo.MOTO);
+		ingresoVehiculo.setCilindraje("250");
+		String response=mainController.ingresoVehiculo(ingresoVehiculo);
+		assertEquals("Un vehiculo de las mismas placas ya se encuentra adentro del parqueadero",response);
+	}
+	@Test
 	public void retiroCarroSuccess() {
 		PlacaVehiculo placaVehiculo = new PlacaVehiculo();
 		placaVehiculo.setPlacas("car123");
 		mainController.retiroVehiculo(placaVehiculo);
 		List<Vehiculo> vehiculoList=persistenciaVehiculo.obtenerVehiculoPorPlacas(EstadoVehiculo.ADENTRO,"car123");
+		assertEquals(0,vehiculoList.size());
+	}
+	@Test
+	public void retiroMotoSuccess() {
+		PlacaVehiculo placaVehiculo = new PlacaVehiculo();
+		placaVehiculo.setPlacas("mot123");
+		mainController.retiroVehiculo(placaVehiculo);
+		List<Vehiculo> vehiculoList=persistenciaVehiculo.obtenerVehiculoPorPlacas(EstadoVehiculo.ADENTRO,"mot123");
 		assertEquals(0,vehiculoList.size());
 	}
 
