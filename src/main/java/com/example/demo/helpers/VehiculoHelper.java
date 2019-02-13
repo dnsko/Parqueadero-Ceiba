@@ -22,7 +22,7 @@ import com.example.demo.vo.PlacaVehiculo;
 public class VehiculoHelper implements InterfaceVehiculo {
 
 
-    private static final Logger logger = LoggerFactory.getLogger(VehiculoHelper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VehiculoHelper.class);
 
     @Autowired
     private PersistenciaVehiculo interfacePersistenceVehiculo;
@@ -60,7 +60,7 @@ public class VehiculoHelper implements InterfaceVehiculo {
             List<Vehiculo> vehiculoList = interfacePersistenceVehiculo.obtenerVehiculoPorPlacas(EstadoVehiculo.ADENTRO,placaVehiculo.getPlacas());
             return vehiculoList.get(0);
         }catch(Exception e) {
-            logger.error("Vehiculo no existe en el parqueadero "+e);
+            LOGGER.error("Vehiculo no existe en el parqueadero "+e);
             return null;
         }
     }
@@ -134,7 +134,7 @@ public class VehiculoHelper implements InterfaceVehiculo {
            }
            vehiculo.setValorParqueadero(daysValue + hoursValue);
        }catch (Exception e){
-           logger.error("Error al calcular el precio "+e);
+           LOGGER.error("Error al calcular el precio "+e);
            vehiculo.setValorParqueadero(null);
        }
    }

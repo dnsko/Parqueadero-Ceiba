@@ -2,15 +2,10 @@ package com.example.demo.enums;
 
 public enum TipoVehiculo {
 	
-	CARRO("Carro"),
-	MOTO("Moto");
+	CARRO,
+	MOTO;
 
     private String tipoDeVehiculo;
-
-
-    private TipoVehiculo(String tipoDeVehiculo) {
-
-    }
 
     public void tipoVehiculoEnum(String tipoVehiculo){
         this.tipoDeVehiculo = tipoVehiculo;

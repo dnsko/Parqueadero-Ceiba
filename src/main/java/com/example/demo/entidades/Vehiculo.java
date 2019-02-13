@@ -9,7 +9,6 @@ import javax.persistence.Table;
 import com.example.demo.enums.EstadoVehiculo;
 import com.example.demo.enums.TipoVehiculo;
 
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity
