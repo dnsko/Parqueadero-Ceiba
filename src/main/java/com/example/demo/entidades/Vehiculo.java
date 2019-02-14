@@ -30,7 +30,7 @@ public class Vehiculo {
 
     private Long valorParqueadero;
 
-    private String cilindraje;
+    private int cilindraje;
 
     private EstadoVehiculo estadoVehiculo;
 
@@ -90,11 +90,11 @@ public class Vehiculo {
         this.valorParqueadero = valorParqueadero;
     }
 
-    public String getCilindraje() {
+    public int getCilindraje() {
         return cilindraje;
     }
 
-    public void setCilindraje(String cilindraje) {
+    public void setCilindraje(int cilindraje) {
         this.cilindraje = cilindraje;
     }
 

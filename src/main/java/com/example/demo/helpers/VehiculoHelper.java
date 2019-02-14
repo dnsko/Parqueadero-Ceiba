@@ -117,11 +117,11 @@ public class VehiculoHelper implements InterfaceVehiculo {
      * @param dia precio por dia
      * @param hora precio por hora
      */
-   private void calculoPrecioTtotal(Vehiculo vehiculo,Long dia,Long hora){
+   public void calculoPrecioTtotal(Vehiculo vehiculo,Long dia,Long hora){
        try{
            Date initialDate=vehiculo.getMomentoIngreso();
            Date finalDate=vehiculo.getMomentoSalida();
-           Long dateDif=initialDate.getTime()-finalDate.getTime();
+           Long dateDif=finalDate.getTime()-initialDate.getTime();
            Long dateDifInHours=dateDif/(60*60*1000);
            Long totalDays=dateDifInHours/24;
            Long daysValue=totalDays*dia;
@@ -132,7 +132,11 @@ public class VehiculoHelper implements InterfaceVehiculo {
            }else {
                hoursValue=totalHours*hora;
            }
-           vehiculo.setValorParqueadero(daysValue + hoursValue);
+           if(TipoVehiculo.MOTO.equals(vehiculo.getTipoVehiculo()) && 500< vehiculo.getCilindraje()){
+               vehiculo.setValorParqueadero(daysValue + hoursValue + 2000);
+           }else{
+               vehiculo.setValorParqueadero(daysValue + hoursValue);
+           }
        }catch (Exception e){
            LOGGER.error("Error al calcular el precio "+e);
            vehiculo.setValorParqueadero(null);

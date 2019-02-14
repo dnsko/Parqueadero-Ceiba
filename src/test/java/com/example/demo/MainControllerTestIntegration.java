@@ -21,7 +21,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MainControllerTest {
+public class MainControllerTestIntegration {
 
 
 	@Autowired
@@ -56,7 +56,7 @@ public class MainControllerTest {
 			moto.setMomentoSalida(salidaFecha2);
 			moto.setEstadoVehiculo(EstadoVehiculo.ADENTRO);
 			moto.setTipoVehiculo(TipoVehiculo.MOTO);
-			moto.setCilindraje("700");
+			moto.setCilindraje(700);
 			moto.setAdentroParqueadero(true);
 			persistenciaVehiculo.save(moto);
 
@@ -85,7 +85,7 @@ public class MainControllerTest {
 		IngresoVehiculo ingresoVehiculo = new IngresoVehiculo();
 		ingresoVehiculo.setPlacas("pro123");
 		ingresoVehiculo.setTipoVehiculo(TipoVehiculo.MOTO);
-		ingresoVehiculo.setCilindraje("250");
+		ingresoVehiculo.setCilindraje(250);
 		String response=mainController.ingresoVehiculo(ingresoVehiculo);
 		assertEquals("Vehiculo de placas "+ingresoVehiculo.getPlacas() + " ingresa con fecha " + new Date(),response);
 	}
@@ -94,7 +94,7 @@ public class MainControllerTest {
 		IngresoVehiculo ingresoVehiculo = new IngresoVehiculo();
 		ingresoVehiculo.setPlacas("mot123");
 		ingresoVehiculo.setTipoVehiculo(TipoVehiculo.MOTO);
-		ingresoVehiculo.setCilindraje("250");
+		ingresoVehiculo.setCilindraje(250);
 		String response=mainController.ingresoVehiculo(ingresoVehiculo);
 		assertEquals("Un vehiculo de las mismas placas ya se encuentra adentro del parqueadero",response);
 	}

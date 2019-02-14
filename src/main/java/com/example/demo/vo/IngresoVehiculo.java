@@ -6,7 +6,7 @@ public class IngresoVehiculo {
 	
 	private String placas;
 	private TipoVehiculo tipoVehiculo;
-	private String cilindraje;
+	private int cilindraje;
 
 	public String getPlacas() {
 		return placas;
@@ -24,11 +24,11 @@ public class IngresoVehiculo {
 		this.tipoVehiculo = tipoVehiculo;
 	}
 
-	public String getCilindraje() {
+	public int getCilindraje() {
 		return cilindraje;
 	}
 
-	public void setCilindraje(String cilindraje) {
+	public void setCilindraje(int cilindraje) {
 		this.cilindraje = cilindraje;
 	}
 }

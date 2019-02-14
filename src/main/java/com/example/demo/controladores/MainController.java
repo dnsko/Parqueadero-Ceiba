@@ -20,12 +20,6 @@ public class MainController {
 	@Autowired
 	private InterfaceVehiculo interfaceVehiculo;
 
-	@RequestMapping(value="/ping", method=RequestMethod.GET)
-	public String ping() {
-		return "prueba";
-	}
-	
-
 	@RequestMapping(value="/retiroVehiculo", method=RequestMethod.POST)
 	public String retiroVehiculo(@RequestBody PlacaVehiculo body) {
 		return interfaceVehiculo.retiroVehiculo(body);
